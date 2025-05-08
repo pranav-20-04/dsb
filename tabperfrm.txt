@@ -1,0 +1,10 @@
+mkae them all dimension
+1row: x,y: 2row: cricle Y
+
+line X : 
+
+
+LIne Y : color-> MeasureName, detail -> realtionship1
+
+
+Circle Y: COlor-> NOde, label-> NOde, detail-> realtionship1  (make this circle)
