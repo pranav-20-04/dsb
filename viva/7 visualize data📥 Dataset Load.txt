@@ -1,0 +1,78 @@
+📥 Dataset Load
+python
+Copy code
+import seaborn as sns
+df = sns.load_dataset('tips')
+➡️ tips dataset load kela — ha Seaborn madhla built-in dataset ahe.
+Yat restaurant tips, gender, smoker status, etc. cha data ahe.
+
+📊 Visualizations (One by One)
+✅ 1. Line Chart – Average Total Bill by Day
+python
+Copy code
+plt.figure(figsize=(8, 5))
+df.groupby('day')['total_bill'].mean().plot(marker='o')
+➡️ Pratek divasachi average total bill calculate keli ani line chart madhe plot kela.
+marker='o' mule points dakhavle jatay.
+
+✅ 2. Barplot – Average Tip by Gender
+python
+Copy code
+sns.barplot(x='sex', y='tip', data=df)
+➡️ Male vs Female — konta gender jyasta tip deto te bar chart ne dakhavle.
+
+✅ 3. Heatmap – Correlation Between Numeric Features
+python
+Copy code
+sns.heatmap(df.corr(numeric_only=True), annot=True, cmap='coolwarm')
+➡️ Sarva numerical features madhla correlation check kela.
+Jase: total_bill ani tip madhe sambandh ahe ka te dakhavta.
+
+✅ 4. Scatterplot – Tip vs Total Bill
+python
+Copy code
+sns.scatterplot(x='total_bill', y='tip', hue='sex', data=df)
+➡️ X-axis la total_bill, Y-axis la tip.
+hue='sex' mule Male/Female la alag color milto.
+
+➡️ Relationship between bill and tip dakhavtoy.
+
+✅ 5. Histogram – Distribution of Total Bill
+python
+Copy code
+sns.histplot(df['total_bill'], bins=20, kde=True)
+➡️ total_bill chi value kontya range madhe kiti dafa aali te dakhavtoy.
+kde=True mule smooth density line suddha ahe.
+
+✅ 6. Boxplot – Tip by Smoker Status
+python
+Copy code
+sns.boxplot(x='smoker', y='tip', data=df)
+➡️ smoker vs tip — Boxplot mule median, IQR, outliers dakhavta.
+Smokers vs Non-smokers madhla tip difference pahila.
+
+✅ 7. Violin Plot – Tip by Day
+python
+Copy code
+sns.violinplot(x='day', y='tip', data=df)
+➡️ Boxplot + Distribution — Divasavarun tip cha spread dakhavtoy.
+Violin shape ne distribution chi density samajte.
+
+✅ 8. Time Series Chart (Simulated)
+python
+Copy code
+plt.plot(df['total_bill'])
+➡️ Index la entry number (0, 1, 2...) ghetla.
+Ani tyaveli kiti bill hota te line chart ne dakhavla.
+Simulated time-series plot ahe.
+
+✅ Summary:
+Chart Type	Purpose
+Line Chart	Divasavarun avg bill
+Barplot	Gender wise avg tip
+Heatmap	Correlation check
+Scatterplot	Relationship between tip & bill
+Histogram	Distribution of bill
+Boxplot	Tip by smoker
+Violin Plot	Tip distribution by day
+Time Series Chart	Trend of bill by index

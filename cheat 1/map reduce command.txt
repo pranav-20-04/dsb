@@ -1,0 +1,13 @@
+pwd
+
+ls
+
+hadoop fs -put Desktop/Process.txt Process.txt
+
+clear
+
+hadoop jar Process.jar Process.Process Process.txt dir16
+
+hadoop fs -cat dir16/port -r 0000
+
+

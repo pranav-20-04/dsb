@@ -1,0 +1,98 @@
+✅ 1. Import Libraries & Load Dataset
+python
+Copy code
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+➡️ Data handling (pandas), math (numpy), and plotting libraries (matplotlib & seaborn) import kele.
+
+python
+Copy code
+df = pd.read_csv('AirQuality-chart,bar,hist.csv', delimiter=';')
+➡️ CSV file load kelay with semicolon delimiter.
+
+python
+Copy code
+df.head()
+df.columns
+➡️ Top 5 rows ani column names display kele.
+
+✅ 2. HEATMAP – Correlation Between Variables
+python
+Copy code
+plt.figure(figsize=(8, 6))
+sns.heatmap(df.corr(), annot=True, cmap='coolwarm')
+➡️ df.corr() mule numerical variables madhla correlation matrix milto.
+
+📊 Heatmap shows how strongly features like NO2(GT), CO(GT), etc. relate to each other.
+
+✅ 3. BARPLOT – Average NO2 per Year
+python
+Copy code
+df['Year'] = df['Date'].dt.year
+sns.barplot(x='Year', y='NO2(GT)', data=df)
+➡️ Date column madhun year extract kela ani NO2 cha average pratek year sathi barplot madhe dakhavla.
+
+✅ 4. SCATTERPLOT – NO2 vs Temperature
+python
+Copy code
+sns.scatterplot(x='NO2(GT)', y='T', data=df)
+➡️ NO2(GT) vs T (temperature) madhla sambandh plot kela using scatterplot.
+
+✅ Helps check if more NO2 comes with higher/lower temperature.
+
+✅ 5. BOXPLOT – NO2 per Year
+python
+Copy code
+sns.boxplot(x='Year', y='NO2(GT)', data=df)
+➡️ Pratek year sathi NO2(GT) cha distribution boxplot ne dakhavla.
+
+📦 Boxplot shows: median, quartiles, and outliers.
+
+✅ 6. VIOLIN PLOT – NO2 Distribution per Year
+python
+Copy code
+sns.violinplot(x='Year', y='NO2(GT)', data=df)
+➡️ Boxplot + distribution = violin plot.
+Shows spread and density of NO2 values for each year.
+
+🎻 Violin shape => denser values center la asatat.
+
+✅ 7. TIMESERIES CHART – NO2 Over Time
+python
+Copy code
+df['Date'] = pd.to_datetime(df['Date'], format='%d/%m/%Y')
+sns.lineplot(x='Date', y='NO2(GT)', data=df)
+➡️ Date format correct kele and line chart ne NO2(GT) cha time-wise trend dakhavla.
+
+🕒 Useful to see air quality improving or worsening over months/years.
+
+✅ 8. HISTOGRAM – Frequency of NO2 Values
+python
+Copy code
+sns.distplot(df['NO2(GT)'], kde=True)
+➡️ NO2 values kiti veles yetat te distribution dakhavla.
+
+📈 KDE (smooth curve) use kela to understand shape of data.
+
+✅ 9. LINE CHART – CO(GT) Over Observations
+python
+Copy code
+df['CO(GT)'] = df['CO(GT)'].str.replace(',', '.').astype(float)
+plt.plot(df['CO(GT)'][:100])
+➡️ CO(GT) values madhe comma decimal asel tar replace kele ani float madhe convert kele.
+Pahilya 100 observations sathi line chart banavla.
+
+🧪 Useful to see how CO(GT) levels vary in a segment of data.
+
+✅ Summary Table:
+Chart Type	Purpose
+Heatmap	Correlation between pollutants
+Barplot	Avg NO2 by Year
+Scatterplot	NO2 vs Temperature
+Boxplot	Year-wise NO2 Distribution
+Violin Plot	NO2 shape & spread per Year
+Timeseries Chart	NO2 change over time
+Histogram	Frequency of NO2 values
+Line Chart	CO(GT) trend for 100 records

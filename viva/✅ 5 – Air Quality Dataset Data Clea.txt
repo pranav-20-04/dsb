@@ -1,0 +1,157 @@
+✅ 5 – Air Quality Dataset: Data Cleaning, Integration, Transformation, Error Correction
+1–3) Import & Read
+python
+Copy code
+import pandas as pd
+import numpy as np
+df = pd.read_csv('airquality_data.csv', encoding='cp1252')
+df.head()
+➡️ Pandas & NumPy import kele.
+File read kela using encoding 'cp1252'.
+head() ne pahilya 5 rows display kelya.
+
+4–5) Basic Info
+python
+Copy code
+df.info()
+df.columns
+➡️ info() ne columns, nulls, types dakhavle.
+columns ne saglya column names distat.
+
+🧹 a. Data Cleaning
+6) Data types optimize
+python
+Copy code
+df['so2'] = df['so2'].astype('float32')
+df['no2'] = df['no2'].astype('float32')
+df['rspm'] = df['rspm'].astype('float32')
+df['spm'] = df['spm'].astype('float32')
+df['date'] = df['date'].astype('string')
+df.info()
+➡️ Memory kami karayla data types change kele (float64 → float32).
+date la string banavla (date parsing nasta mhnun).
+
+7) Drop duplicates
+python
+Copy code
+df = df.drop_duplicates()
+➡️ Repeat rows delete kele.
+
+8–10) Check null values
+python
+Copy code
+df.isna().sum()
+percent_missing = df.isnull().sum() * 100 / len(df)
+percent_missing.sort_values(ascending=False)
+➡️ Missing values count kela (number & % both).
+Top missing columns pahile sorting ne.
+
+11) Drop irrelevant columns
+python
+Copy code
+df = df.drop(['stn_code', 'agency','sampling_date','location_monitoring_station','pm2_5'], axis=1)
+➡️ Upyogi naslele columns cut kele (data cleaning madhe).
+
+12–13) Confirm changes
+python
+Copy code
+df.head()
+df.columns
+➡️ Changes check kele visually.
+
+14) Variable types divide
+python
+Copy code
+col_var = ['state', 'location', 'type','date']
+col_num = ['so2','no2','rspm','spm']
+➡️ Categorical vs Numerical vars alag kele.
+
+15) Missing value imputation
+python
+Copy code
+for col in df.columns:
+    if df[col].dtype == 'object' or df[col].dtype == 'string':
+        df[col] = df[col].fillna(df[col].mode()[0])
+    else:
+        df[col] = df[col].fillna(df[col].mean())
+➡️ String/categorical vars la mode() ne fill kela.
+Numeric vars la mean vaparla.
+
+16–18) Check nulls again
+python
+Copy code
+df.isna().sum()
+df
+df.isna().sum()
+➡️ Verify kel ki missing values aata nahiye.
+
+🔗 b. Data Integration
+19–21) Subsets create
+python
+Copy code
+subSet1 = df[['state', 'type']]
+subSet2 = df[['state','location']]
+subSet1.head()
+subSet2.head()
+➡️ Don subset banavle state common aahe donhi madhe.
+
+22–23) Concatenate
+python
+Copy code
+concatenated_df = pd.concat([subSet1, subSet2], axis=1)
+concatenated_df
+➡️ Horizontally (axis=1) join kela – basically columns jodle.
+
+❌ d. Error Correcting – Outlier Removal
+24) Outlier function
+python
+Copy code
+def remove_outliers(column):
+    Q1 = column.quantile(0.25)
+    Q3 = column.quantile(0.75)
+    IQR = Q3 - Q1
+    threshold = 1.5 * IQR
+    outlier_mask = (column < Q1 - threshold) | (column > Q3 + threshold)
+    return column[~outlier_mask]
+➡️ IQR method vaparla outliers remove karayla.
+Jo range baher ahe toh remove hoil.
+
+25–26) Apply function
+python
+Copy code
+df.columns
+col_name = ['so2', 'no2', 'rspm', 'spm']
+for col in col_name:
+    df[col] = remove_outliers(df[col])
+➡️ List madhlya saglya numeric columns var function apply kela.
+
+27–28) Boxplots to visualize
+python
+Copy code
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+plt.figure(figsize=(10, 6))
+for col in col_name:
+    sns.boxplot(data=df[col])
+    plt.title(col)
+    plt.show()
+➡️ Boxplot banavle to visualize outliers before/after.
+
+🔁 c. Data Transformation
+29–30) Label Encoding
+python
+Copy code
+from sklearn.preprocessing import LabelEncoder
+col_label = ['state','location','type']
+encoder = LabelEncoder()
+for col in df.columns:
+    df[col] = encoder.fit_transform(df[col])
+➡️ Text/categorical columns la numeric format madhe convert kele using LabelEncoder
+(ML model sathi mandatory ahe).
+
+✅ Final Data
+python
+Copy code
+df
+➡️ Final cleaned, encoded, transformed dataset ready for analysis or ML.

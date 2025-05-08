@@ -1,0 +1,68 @@
+3 - FACEBOOK METRICS: CREATE, MERGE, SORT…
+1) import pandas as pd
+➡️ Python madhye pandas ha ek data handling library ahe.
+pd mhanje short name ahe jacha use aapan nantar karnaar.
+Upyog: DataFrame create, read, modify karayla.
+
+2) df = pd.read_csv('dataset_Facebook.csv', delimiter=';')
+➡️ read_csv() ha function CSV file read karto.
+delimiter=';' mhanje file madhye columns ; ne vegale kele ahet.
+Upyog: CSV file madhla data DataFrame df madhe thevla.
+
+3) df
+➡️ He ek DataFrame object ahe.
+Output: data print honar terminal/Notebook madhe.
+
+4) df.describe()
+➡️ He function DataFrame cha basic statistics dakhavto.
+(Min, Max, Mean, Count, etc.)
+Upyog: Data samajhnyasathi.
+
+Create Data Subsets
+5) df_subset_1 = df[['like','share']]
+➡️ Don columns (like, share) select karun df_subset_1 madhe thevle.
+Upyog: Part of data (subset) banavla analysis sathi.
+
+6) df_subset_2 = df[['comment','Type']]
+➡️ Dusra subset tayar kela comment ani Type ya columns sathi.
+Upyog: Vegalya column combinations sathi subsets banavla.
+
+Merge Data
+7) merged_data = pd.merge(df_subset_2, df_subset_1, left_on='comment', right_on= 'like')
+➡️ Don subset merge kele:
+
+df_subset_2 cha comment ani
+
+df_subset_1 cha like match jhala ki row combine hotil.
+Upyog: Relation tayar karaycha don data subsets madhe.
+
+Sort Data
+8) merged_data.sort_values(by=['like'], ascending=False)
+➡️ merged_data la like column pramane descending (motha to lahan) sort kele.
+Upyog: Lokanchya jast likes aslele posts pahayche asel tar.
+
+Transposing Data
+9) merged_data.transpose()
+➡️ DataFrame transpose mhanje rows → columns & columns → rows.
+Upyog: Layout badalnyasathi jithe column-based analysis karaycha ahe.
+
+Shape and Reshape Data
+10) df
+➡️ Original data print honar (puna display).
+
+11) df.Type.unique()
+➡️ Type column madhle unique (alag) values display karto.
+Upyog: Kiti alag type che posts ahet he samjanyasathi (photo, link, status, etc.).
+
+12) pd.melt(df, id_vars=['Type'], value_vars=['comment'])
+➡️ Reshape function:
+
+id_vars = ['Type'] mhanje Type fix thevla.
+
+value_vars = ['comment'] mhanje comment ha column rows madhe convert zala.
+
+Upyog: Wide data → Long format madhe convert karaycha.
+
+📝 Example:
+If 1 row has multiple metrics, melt tyala ek-ek row madhe convert karto analysis sathi.
+

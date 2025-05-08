@@ -1,0 +1,82 @@
+✅ Cheat 6 – Facebook Dataset: Create, Merge, Sort, Transform, Reshape
+1–2) Import & Load
+python
+Copy code
+import pandas as pd
+df = pd.read_csv('dataset_Facebook.csv',delimiter=';')
+➡️ pandas import kele.
+Facebook dataset .csv file ; delimiter ne load keli.
+
+3) df
+➡️ Full dataframe display zala, saglya columns ani rows pahilya.
+
+4) df.describe()
+➡️ Summary statistics milale — mean, std, min, max, etc.
+Numerical columns sathi useful ahe.
+
+📊 Create Data Subsets
+5) Like & Share subset
+python
+Copy code
+df_subset_1 = df[['like','share']]
+df_subset_1
+➡️ Nusta 'like' ani 'share' columns gheun ek navi table banavli.
+
+6) Comment & Type subset
+python
+Copy code
+df_subset_2 = df[['comment','Type']]
+df_subset_2
+➡️ 'comment' ani 'Type' columns gheun dusri table tayar keli.
+
+🔗 Merge Data
+7) Merge by comment & like
+python
+Copy code
+merged_data  = pd.merge(df_subset_2, df_subset_1, left_on='comment', right_on= 'like')
+merged_data
+➡️ comment ani like ya columns var merge kele.
+Matlab: comment chi value jithe like sarkhi ahe tith merge zala.
+
+🔽 Sort Data
+8) Sort by like descending
+python
+Copy code
+merged_data.sort_values(by=['like'],ascending=False)
+➡️ like column descending order madhe sort kela.
+
+🔁 Transpose Data
+9) Transpose method
+python
+Copy code
+merged_data.transpose()
+➡️ Rows → Columns, Columns → Rows change jhale.
+Transpose mainly data la vertically analyze karayla vaparto.
+
+🔻 Shape and Reshape Data
+10–11) Check Data and Unique Types
+python
+Copy code
+df
+df.Type.unique()
+➡️ Full dataset display jhala & 'Type' column madhe kontya values ahet te check kele (e.g. Photo, Video).
+
+12) Reshape using melt
+python
+Copy code
+pd.melt(df, id_vars =['Type'], value_vars =['comment'])
+➡️ melt() function ne reshaping keli:
+
+Type fix rakhla (id_vars)
+
+comment la values banavla (value_vars)
+
+➡️ Result: Wide format to long format convert zala.
+
+🔚 Summary
+Subset, merge, ani sort operations basic data handling sathi hotat.
+
+transpose() ani melt() ne data la transform kela analysis sathi.
+
+Hya code ne tumhala Facebook dataset cha analytics-ready form madhe badlu shakla.
+

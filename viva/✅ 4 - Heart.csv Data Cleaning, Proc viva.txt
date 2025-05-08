@@ -1,0 +1,201 @@
+✅ 4 - Heart.csv: Data Cleaning, Processing, Transformation & Model Building
+1) Import libraries
+python
+Copy code
+import numpy as np
+import pandas as pd
+from sklearn.model_selection import train_test_split
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.preprocessing import LabelEncoder
+from sklearn.metrics import accuracy_score, confusion_matrix
+from sklearn.linear_model import LogisticRegression
+➡️ Libraries import kele:
+
+pandas, numpy: data handling
+
+matplotlib, seaborn: visualization
+
+sklearn: model build + evaluation
+
+2) Read CSV
+python
+Copy code
+df = pd.read_csv("Heart.csv")
+df.head()
+➡️ Heart.csv file read keli.
+head() = pahilya 5 rows dakhavto.
+
+🧹 Data Cleaning
+3) Remove Duplicates
+python
+Copy code
+df = df.drop_duplicates()
+➡️ Repeat rows delete kele.
+
+4) Describe
+python
+Copy code
+df.describe()
+➡️ Columns chi stats info – mean, max, min, count.
+
+5) Info
+python
+Copy code
+df.info()
+➡️ Data type, null values, column info.
+
+6) Check nulls
+python
+Copy code
+df.isna().sum()
+➡️ Pratyek column madhye kiti missing values ahet te dakhavto.
+
+🔗 Data Integration
+7) Show data
+python
+Copy code
+df.head()
+8) Unique values of fbs
+python
+Copy code
+df.fbs.unique()
+➡️ fbs column madhil alag values.
+
+9) Create subsets & cross join
+python
+Copy code
+subSet1 = df[['age', 'sex']].copy()
+subSet2 = df[['cp', 'thalachh']].copy()
+subSet1['key'] = 1
+subSet2['key'] = 1
+merged_df = pd.merge(subSet1, subSet2, on='key').drop('key', axis=1)
+➡️ Don subset banavle.
+Dummy key=1 add kela to simulate cross join.
+drop('key') ne key remove kela.
+
+10) Version check
+python
+Copy code
+print(pd.__version__)
+➡️ Pandas chi version check keli.
+
+🛠️ Error Correction & Outlier Removal
+11) Columns list
+python
+Copy code
+df.columns
+➡️ Column names display hotat.
+
+12) Outlier removal function
+python
+Copy code
+def remove_outliers(column):
+  Q1 = column.quantile(0.25)
+  Q3 = column.quantile(0.75)
+  IQR = Q3 - Q1
+  threshold = 1.5 * IQR
+  outlier_mask = (column < Q1 - threshold) | (column > Q3 + threshold)
+  return column[~outlier_mask]
+➡️ Q1, Q3 calculate kele.
+IQR method use karun outliers kadhle.
+
+13) Apply function
+python
+Copy code
+col_name = ['cp','thalachh','exng','oldpeak','slp','caa']
+for col in col_name:
+    df[col] = remove_outliers(df[col])
+➡️ Loop madhe function call kela to clean multiple columns.
+
+14) Boxplot after cleaning
+python
+Copy code
+plt.figure(figsize=(10, 6))
+for col in col_name:
+    sns.boxplot(data=df[col])
+    plt.title(col)
+    plt.show()
+➡️ Har column sathi boxplot banavla (outliers visualization sathi).
+
+15) Drop missing rows
+python
+Copy code
+df = df.dropna()
+➡️ Jithe NaN values ahet to sagle rows kadhun takle.
+
+16) Check again for nulls
+python
+Copy code
+df.isna().sum()
+➡️ Null values ajun aahet ka check kela.
+
+17) Drop ‘fbs’ column
+python
+Copy code
+df = df.drop('fbs', axis=1)
+➡️ fbs column analysis sathi use nasta mhnun delete kela.
+
+18) Correlation check
+python
+Copy code
+correlations = df.corr()['output'].drop('output')
+print("Correlation with the Target:")
+print(correlations)
+
+plt.figure(figsize=(8, 6))
+sns.heatmap(df.corr(), annot=True, cmap='coolwarm')
+plt.title('Correlation Heatmap')
+plt.show()
+➡️ output column sobat correlation calculate keli.
+Heatmap banavla to visualize relationships.
+
+🔁 Data Transformation
+19-21) Standard Scaling
+python
+Copy code
+from sklearn.preprocessing import StandardScaler
+scaler = StandardScaler()
+x_train_scaled = scaler.fit_transform(x_train)
+x_test_scaled = scaler.transform(x_test)
+➡️ Model sathi data same scale madhe yava mhnun standardization kela.
+
+🤖 Model Building
+22) Reshape labels
+python
+Copy code
+y_train = np.array(y_train).reshape(-1, 1)
+y_test = np.array(y_test).reshape(-1, 1)
+➡️ Labels 2D array madhe convert kele (model compatible banvayla).
+
+23) Check shape
+python
+Copy code
+y_train.shape
+➡️ y_train chi shape baghitli.
+
+24) Logistic Regression
+python
+Copy code
+model = LogisticRegression()
+model.fit(x_train_scaled, y_train)
+y_pred = model.predict(x_test_scaled)
+accuracy = accuracy_score(y_test, y_pred)
+print("Accuracy:", accuracy)
+➡️ Logistic Regression model train kela.
+Predictions kele ani accuracy print keli.
+
+25) Decision Tree Classifier
+python
+Copy code
+from sklearn.tree import DecisionTreeClassifier
+tc = DecisionTreeClassifier(criterion='entropy')
+tc.fit(x_train_scaled, y_train)
+y_pred = tc.predict(x_test_scaled)
+
+print("Training Accuracy Score :", accuracy_score(y_pred, y_test))
+print("Training Confusion Matrix:", confusion_matrix(y_pred, y_test))
+➡️ Dusra model – Decision Tree vaparla.
+Entropy base classifier.
+Accuracy & confusion matrix print kela.
+

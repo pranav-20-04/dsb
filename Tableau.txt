@@ -1,0 +1,116 @@
+open tableau 
+ click on excel add sample store xls file 
+
+then  drag order tables to sheet
+
+1D VISUALIZATION:
+
+1D title : 1D: Find total sales of us
+
+sheet name edit : 1D 
+
+add sum to Rows
+
+In Filters add Year from order date
+
+in filters after adding year right click on year you will see edit filter select respective year 
+
+
+2D VISUALIZATION
+
+Add Sheet Rename it 2D 
+
+
+then edit title 2D: State Sales distribution
+
+then from tables add state double click onit to main page 
+
+then add sales to  size  in marks
+now you will see map with some dots
+
+remove sales from size add sales to colour dark clour show higher sales
+
+add order date to filter filter by year vise
+
+then  add category to filters and use all apply then ok
+
+right click on category in filters show filters 
+
+
+MULTIDIMENSIONAL
+
+add sheet rename as multidimensional 
+
+edit title : Regionwise sale and profit values for each product cate
+
+add profit  to column 
+
+add sale that is sum to rows
+
+add category to colours
+
+add region to shape in marks
+
+TEMPORAL DATA
+
+add dataset from data source that is MySampleStore1
+
+edit sheet name to Temporal
+
+edit title to : Build time series charts with two variables sales and time
+
+add order date to column 
+sales from measure to rows 
+
+you can click to + sign from column of year to divide from quarter 
+
+then click on - then right click on column chat then select  continue 
+
+then left side you are on Date then come to analtics then on forecast 
+
+drag forecast  to viewmeans main page then to color from mark it will show or add manually
+
+then come to data from it select segments and add to color
+
+ or if you want to view as category then remove segment just add category to rows
+
+ add segment to color 
+
+
+Tree map 
+
+edit sheetname to tree map
+
+the title to Aggregated sales total for each product cate 
+
+drag category to column
+
+sales to rows
+
+on right side above click on show me 
+
+then add boxes type blue color you will see different rectangle
+
+drag shipmode to colors
+
+then remove sheetmode to color 
+drag profit to color (sum)
+
+tabeau:
+
+ right click  on data on leftside down there is orders click on view data
+
+add order date or category to column (add both to column)
+
+
+add sales to rows (sum)
+
+
+
+ 
+
+
+
+
+
+

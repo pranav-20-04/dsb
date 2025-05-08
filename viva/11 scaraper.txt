@@ -1,0 +1,142 @@
+Here's a simple step-by-step explanation of your web scraping code using the website https://books.toscrape.com/ in easy English + Marathi (Latin script) style:
+
+✅ 1) Install Required Libraries
+python
+Copy code
+!pip install requests beautifulsoup4
+➡️ Installs requests (for fetching webpages) and beautifulsoup4 (for parsing HTML).
+If “already satisfied” shows, it means libraries are already installed.
+
+✅ 2) Import Libraries
+python
+Copy code
+import requests
+from bs4 import BeautifulSoup
+➡️ requests is used to send HTTP requests.
+➡️ BeautifulSoup helps extract data from HTML pages (like tags, classes).
+
+✅ 3) Fetch and Parse the Web Page
+python
+Copy code
+url = "https://books.toscrape.com/"
+headers = { "User-Agent": "Mozilla/5.0" }
+
+response = requests.get(url, headers=headers)
+soup = BeautifulSoup(response.text, "html.parser")
+🔹 User-Agent is added to mimic a browser (some sites block bots).
+🔹 soup is the parsed HTML, ready for extraction.
+
+✅ 4) Extract Book Info from Home Page
+python
+Copy code
+books = soup.find_all("article", class_="product_pod")
+print("Total books found:", len(books))
+➡️ Finds all <article class="product_pod"> blocks (each represents one book).
+➡️ Counts how many books are found on the page (should be 20 per page).
+
+✅ 5) Print First 5 Books' Details
+python
+Copy code
+for book in books[:5]:
+    title = book.h3.a["title"]
+    price = book.find("p", class_="price_color").text
+    rating = book.p["class"][1]
+
+    print("Title:", title)
+    print("Price:", price)
+    print("Rating:", rating)
+    print("-" * 50)
+🎯 Explanation:
+
+book.h3.a["title"] → gets the title.
+
+price_color → gives the price.
+
+class_="star-rating" → gives the rating as a word (e.g., "Three").
+
+✅ 6) Check Specific Book Title Using CSS Selector
+python
+Copy code
+soup.select('article h3 a')[0]['title']
+➡️ CSS selector selects first book's <a> tag inside <h3> and returns its title attribute.
+
+✅ 7) Scrape Multiple Pages (Pagination)
+python
+Copy code
+base_url = 'https://books.toscrape.com/catalogue/page-{}.html'
+✅ Now looping through pages 1 to 5 to collect:
+
+Titles
+
+Prices
+
+Ratings
+
+Availability
+
+python
+Copy code
+titles = []
+prices = []
+ratings = []
+availability = []
+
+for page in range(1, 6):
+    print(f"Scraping page {page}...")
+    response = requests.get(base_url.format(page), headers=headers)
+    soup = BeautifulSoup(response.content, 'html.parser')
+    books = soup.find_all('article', class_='product_pod')
+
+    for book in books:
+        title = book.h3.a['title']
+        price = book.find('p', class_='price_color').text
+        availability_status = book.find('p', class_='instock availability').text.strip()
+        rating_class = book.find('p', class_='star-rating')['class'][1]
+
+        titles.append(title)
+        prices.append(price)
+        ratings.append(rating_class)
+        availability.append(availability_status)
+
+    time.sleep(1)  # Polite delay between pages
+✅ 8) Store Data in DataFrame
+python
+Copy code
+df = pd.DataFrame({
+    'Title': titles,
+    'Price': prices,
+    'Rating': ratings,
+    'Availability': availability
+})
+df.head()
+➡️ Converts the collected lists into a structured table (Pandas DataFrame).
+
+✅ 9) More CSS Selectors
+python
+Copy code
+soup.select('article p')[1].string
+➡️ Gets the second <p> tag inside all articles and its text (can be price, stock, etc.)
+
+python
+Copy code
+soup.select('article p')[0]['class']
+➡️ Gets the class attribute of the first <p> (usually rating like ["star-rating", "Three"])
+
+📌 Final Outcome:
+You are extracting book data like:
+
+Title
+
+Price
+
+Rating
+
+Availability
+from multiple pages of an online bookstore.
+
+🧠 Tips for Better Understanding:
+Use soup.prettify() to see the full HTML structure.
+
+Use df.to_csv() to save your scraped data.
+
+Always use polite scraping (time.sleep() between requests).
